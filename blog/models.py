@@ -4,6 +4,10 @@ from django.utils import timezone
 
 from django.contrib.auth.models import User
 
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super(PublishedManager, self).get_queryset() \
+                                                .filter(status='publicado')
 
 class Post(models.Model):
     STATUS = (
@@ -23,6 +27,17 @@ class Post(models.Model):
     status    = models.CharField(max_length=10,
                                     choices=STATUS,
                                     default='rascunho') # CharField com possibilidade de escolhas que são definidas em tuplas
+
+    objects   = models.Manager() # fará com que não se limite apenas aos publicados
+    published_manager = PublishedManager() # exibirá no admin do django somente os publicados
+
+    """
+        Criando um manager eu posso personalizar consultas genericas. 
+        No exemplo do published quando executarmos objects.published_manager.all() irá fazer a consulta
+        somente nos publicados, filtro passando dentro da minha classe PublishedManager.
+
+    """
+
 
     class Meta: # classe para algumas configuracoes de Post
         ordering = ('-published',) #"-" indica do mais antigo para o mais atual
