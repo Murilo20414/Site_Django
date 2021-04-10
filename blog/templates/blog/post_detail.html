@@ -8,5 +8,6 @@
         <h2>{{post.title}}</h2>
         <p>{{post.content}}</p>
     </div>
-
+    <a href="{{ post.get_absolute_url_update }}">Editar post</a>
+    <a href="{{ post.get_absolute_url_delete }}">Deletar post</a>
 {% endblock content %}

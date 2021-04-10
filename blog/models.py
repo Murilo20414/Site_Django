@@ -1,7 +1,7 @@
 from django.db import models
 
 from django.utils import timezone
-
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 class PublishedManager(models.Manager):
@@ -37,6 +37,14 @@ class Post(models.Model):
         somente nos publicados, filtro passando dentro da minha classe PublishedManager.
 
     """
+    def get_absolute_url(self):
+        return reverse('post_detail',args=[self.slug])
+
+    def get_absolute_url_update(self):
+        return reverse('post_edit',args=[self.slug])
+
+    def get_absolute_url_delete(self):
+        return reverse('post_delete',args=[self.pk])
 
 
     class Meta: # classe para algumas configuracoes de Post
