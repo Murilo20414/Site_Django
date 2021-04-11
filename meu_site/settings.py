@@ -15,6 +15,7 @@ from pathlib import Path
 import os
 from decouple import config
 from dj_database_url import parse as dburl
+import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -77,6 +78,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'meu_site.wsgi.application'
 
+
+
+django_heroku.settings(locals())
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
