@@ -1,13 +1,44 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %} Blog - Detalhes {% endblock title %}
+
+{% block header %}
+
+  <!-- Page Header -->
+    {% if post.image %}
+        <header class="masthead" style="background-image: url('{{ post.image.url }}')">
+    {% else %}
+        <header class="masthead" style="background-image: url('{% static 'img/post-sample-image.jpg' %}')">
+    {% endif %}
+
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>{{post.title}}</h1>
+            <span class="subheading">Uma postagem de {{post.author.username}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+{% endblock header %}
 
 {% block content %} 
 
     <div class="post-entry">
-        <h2>{{post.title}}</h2>
-        <p>{{post.content}}</p>
+        <p>{{post.content|safe}}</p>
     </div>
-    <a href="{{ post.get_absolute_url_update }}">Editar post</a>
-    <a href="{{ post.get_absolute_url_delete }}">Deletar post</a>
+    {% if user.username == post.author.username %}
+        <div class="row">
+            <div class="col-md-9">
+                <i class="fas fa-edit">&nbsp;<a class="badge badge-pill badge-light" href="{{ post.get_absolute_url_update }}">Editar post</a></i>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-trash-alt">&nbsp;<a class="badge badge-pill badge-light" href="{{ post.get_absolute_url_delete }}">Deletar post</a></i>
+            </div>
+        </div>
+    {% endif %}
 {% endblock content %}
